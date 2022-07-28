@@ -1,0 +1,138 @@
+{
+  "main": {
+    "id": "193046bbb0c7d1cc",
+    "type": "split",
+    "children": [
+      {
+        "id": "89b121ef665d25e8",
+        "type": "leaf",
+        "state": {
+          "type": "markdown",
+          "state": {
+            "file": "Memory Palace/Elasticsearch/深入理解Elasticsearch.md",
+            "mode": "source",
+            "source": false
+          }
+        }
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "c3c588099d41d435",
+    "type": "split",
+    "children": [
+      {
+        "id": "af4ff4214312e052",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "2736ee8bf3e40a2e",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {}
+            }
+          },
+          {
+            "id": "e5c425a7f7a1b1ba",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "93f7703b2f663430",
+            "type": "leaf",
+            "state": {
+              "type": "starred",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "b77eec41c8cab078",
+    "type": "split",
+    "children": [
+      {
+        "id": "65c642faa21acab8",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "f544f83772f71f25",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Memory Palace/Elasticsearch/深入理解Elasticsearch.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "b85b7c786e59e24d",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "读书笔记/怦然心动的人生整理魔法.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "f9464cae63a982f1",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "f7111c2c3510a3ee",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Memory Palace/Elasticsearch/深入理解Elasticsearch.md"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "active": "89b121ef665d25e8",
+  "lastOpenFiles": [
+    "Memory Palace/Flink/pic/deployment_overview.svg",
+    "Memory Palace/CEPH/CEPH中文操作文档.pdf",
+    "Career/Career/Common Interview Questions and Answers.md",
+    "读书笔记/怦然心动的人生整理魔法.md"
+  ]
+}

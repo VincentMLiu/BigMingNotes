@@ -1,0 +1,18 @@
+{
+  "markdown-importer:open": [
+    {
+      "modifiers": [
+        "Mod"
+      ],
+      "key": "T"
+    }
+  ],
+  "obsidian-mind-map:app:markmap-preview": [
+    {
+      "modifiers": [
+        "Shift"
+      ],
+      "key": "M"
+    }
+  ]
+}
