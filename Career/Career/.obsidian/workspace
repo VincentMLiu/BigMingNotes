@@ -1,0 +1,132 @@
+{
+  "main": {
+    "id": "a9acbc422770fd61",
+    "type": "split",
+    "children": [
+      {
+        "id": "d34f9a90b37895ac",
+        "type": "split",
+        "children": [
+          {
+            "id": "5c134be2fe533652",
+            "type": "leaf",
+            "dimension": 65.16064257028113,
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "Complete-Interview-Answer-Guide.pdf"
+              }
+            }
+          },
+          {
+            "id": "7038e35dccbde69c",
+            "type": "leaf",
+            "dimension": 34.83935742971887,
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Common Interview Questions and Answers.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          }
+        ],
+        "direction": "horizontal"
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "59c7799cbab4cd7e",
+    "type": "split",
+    "children": [
+      {
+        "id": "e9bd597b46a57614",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "5dc9bf0747b26220",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {}
+            }
+          },
+          {
+            "id": "0135cf4aa08d64c3",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "5ee989c87659eb34",
+            "type": "leaf",
+            "state": {
+              "type": "starred",
+              "state": {}
+            }
+          },
+          {
+            "id": "fd817977eabb3c17",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Complete-Interview-Answer-Guide.pdf"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "2119f510b2155802",
+    "type": "split",
+    "children": [
+      {
+        "id": "8dd0551522caa464",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "19409495a667fafd",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Complete-Interview-Answer-Guide.pdf",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "active": "5c134be2fe533652",
+  "lastOpenFiles": [
+    "Complete-Interview-Answer-Guide.pdf",
+    "Common Interview Questions and Answers.md"
+  ]
+}
