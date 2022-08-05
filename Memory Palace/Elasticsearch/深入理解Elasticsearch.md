@@ -1,6 +1,6 @@
-# Elasticsearch关键原理
+# Elasticsearch基本原理
 
-## 一、Elasticsearch简介
+## 一、Elasticsearch定义
 
 ​	Elasticsearch 是一个分布式、RESTful 风格的**搜索和数据分析引擎**。	
 
@@ -45,79 +45,25 @@ Stack 技术栈的核心。它可以近乎实时的存储、检索数据；本�
 * 对不同记录类型、非文本数据操作或安全事务处理的需求相对较少的情况。
 
 
-
-### 倒排索引
-
-#### 正排----目录
-
-![image-20220117111306712](https://gitee.com/vincentmliu/big-data-learning-materials/raw/master/trainning_materials/Elasticsearch/pics/Forward_index)
-
-使用mysql进行存储之后的表结构如下
-
-| title                       | page_num | content                                |
-| --------------------------- | -------- | -------------------------------------- |
-| Go and the Operating System | 7        | Go is a good programing language...... |
-| The Structure of the book   | 8        | ....                                   |
-
-如果想查找内容中的某个词，比如‘programing’。只能用语句
-
-select * from table where content like '\*programing\*'；
-
-会导致索引内容巨大，查询速度极慢
-
-https://gitee.com/vincentmliu/big-data-learning-materials/raw/master/trainning_materials/Elasticsearch/pics/BM25
-
-#### 倒排 - 索引页
-
-![invert_index](https://gitee.com/vincentmliu/big-data-learning-materials/raw/master/trainning_materials/Elasticsearch/pics/invert_index.png)
+| -搜索引擎-   | -数据库-   |
+| ------------ | ---------- |
+| 非结构化数据 | 结构化数据 |
+|  查询条件无需精确，不用知道数据结构            |  查询条件必须精确无歧义，必须提前知道数据结构          |
+| 会对查询条件进行延伸解释（分词、近义词、联想）  | 不会延伸解释            |
 
 
 
-倒排索引，可以直接查询词programing在哪一页。
+### Elastic Stack生态圈
 
+![image-20220117134619944](./pics/Elastic_Stack)
 
+Logstash: 数据采集，类似与flume
 
-![image-20220117113240590](https://gitee.com/vincentmliu/big-data-learning-materials/raw/master/trainning_materials/Elasticsearch/pics/forward_and_invert)
+Beats：轻量化数据采集器。
 
-### Elasticsearch 中的倒排索引
+Kibana：可视化分析。
 
-* ES中的倒排索引包含两个部分
-  * 单词词典（Term Dictionady），记录所有文档的单词，记录单词到倒排列表的关联关系。
-    * 单词词典一般比较大，通过B+树或者哈希拉链法实现。
-  * 倒排列表（Posting List），记录单词对应的文档结合，由倒排索引项组成。
-    * 倒排索引项包含
-      * 文档ID
-      * 词频TF - 该单词在文档中出现的次数，用于相关性评分
-      * 位置（Position）- 单词在文档中分词的位置。用于语句搜索（phrase query）
-      * 偏移（Offset）- 记录单词的开始结束位置，实现高亮显示
-
-例子：
-
-![image-20220117114949041](https://gitee.com/vincentmliu/big-data-learning-materials/raw/master/trainning_materials/Elasticsearch/pics/es_invert_index_example)
-
-### BKD Tree
-
-ES中的其他数据结构是通过BKD树来索引的
-
-https://medium.com/swlh/bkd-trees-used-in-elasticsearch-40e8afd2a1a4#:~:text=BST%20or%20other%20similar%20implementations,the%20tree%20with%20the%20pivot.
-
-
-
-BST平衡二叉树是用来查找一维数组的数据结构
-
-BKD树是用来查找多维数组的数据结构
-
-BKD树中引用了一个discriminator 的概念，公式如下
-$$
-discriminator = level \% N 
-$$
-where level is the level of the tree and N is the number of dimensions
-
-
-
-
-
-
+X-Pack：商业化套件。
 
 
 
@@ -150,27 +96,86 @@ ES下载地址
 
 
 
-### Elastic Stack生态圈
+### 倒排索引
 
-![image-20220117134619944](https://gitee.com/vincentmliu/big-data-learning-materials/raw/master/trainning_materials/Elasticsearch/pics/Elastic_Stack)
+#### 正排----目录
 
-Logstash: 数据采集，类似与flume
+![image-20220117111306712](./pics/Forward_index.png)
 
-Beats：轻量化数据采集器。
+使用mysql进行存储之后的表结构如下
 
-Kibana：可视化分析。
+| title                       | page_num | content                                |
+| --------------------------- | -------- | -------------------------------------- |
+| Go and the Operating System | 7        | Go is a good programing language...... |
+| The Structure of the book   | 8        | ....                                   |
 
-X-Pack：商业化套件。
+如果想查找内容中的某个词，比如‘programing’。只能用语句
+
+select * from table where content like '\*programing\*'；
+
+会导致索引内容巨大，查询速度极慢
+
+./pics/BM25.png
+
+#### 倒排 - 索引页
+
+![invert_index](./pics/invert_index.png)
+
+
+
+倒排索引，可以直接查询词programing在哪一页。
+
+
+
+![image-20220117113240590](./pics/forward_and_invert.png)
+
+### Elasticsearch 中的倒排索引
+
+* ES中的倒排索引包含两个部分
+  * 单词词典（Term Dictionady），记录所有文档的单词，记录单词到倒排列表的关联关系。
+    * 单词词典一般比较大，通过B+树或者哈希拉链法实现。
+  * 倒排列表（Posting List），记录单词对应的文档结合，由倒排索引项组成。
+    * 倒排索引项包含
+      * 文档ID
+      * 词频TF - 该单词在文档中出现的次数，用于相关性评分
+      * 位置（Position）- 单词在文档中分词的位置。用于语句搜索（phrase query）
+      * 偏移（Offset）- 记录单词的开始结束位置，实现高亮显示
+
+例子：
+
+![image-20220117114949041](./pics/es_invert_index_example.png)
+
+### BKD Tree
+
+ES中的其他数据结构是通过BKD树来索引的
+
+https://medium.com/swlh/bkd-trees-used-in-elasticsearch-40e8afd2a1a4#:~:text=BST%20or%20other%20similar%20implementations,the%20tree%20with%20the%20pivot.
+
+
+
+BST平衡二叉树是用来查找一维数组的数据结构
+
+BKD树是用来查找多维数组的数据结构
+
+BKD树中引用了一个discriminator 的概念，公式如下
+$$
+discriminator = level \% N 
+$$
+where level is the level of the tree and N is the number of dimensions
+
+
+
+
+
+
 
 
 
 ### Elasticsearch 中的基本概念
 
-![image-20220117135927992](https://gitee.com/vincentmliu/big-data-learning-materials/raw/master/trainning_materials/Elasticsearch/pics/basic_term)
+![image-20220117135927992](./pics/basic_term.png)
 
-
-
-#### **数据结构**
+#### 数据模型
 
 * Index 索引
   * Type 类型（废弃， 7.0之后统一为_doc）
@@ -182,7 +187,7 @@ X-Pack：商业化套件。
 * 文档的保存格式是JSON，每个字段都有对应的字段类型。
 * 在一个index中，每个文档都有一个Unique ID，可以指定，也可以自动生成。
 
-![image-20220117140846543](https://gitee.com/vincentmliu/big-data-learning-materials/raw/master/trainning_materials/Elasticsearch/pics/doc_example)
+![image-20220117140846543](./pics/doc_example.png)
 
 
 
@@ -199,7 +204,7 @@ X-Pack：商业化套件。
 
 
 
-#### **程序架构**
+#### 程序架构
 
 * Cluster 集群
   * Node 节点
@@ -292,7 +297,7 @@ ingest 节点可以看作是数据前置处理转换的节点，支持 pipeline�
 
 集群启动过程指集群完全重启时的启动过程，期间要经历选举主节点、主分片、数据恢复等重要阶段。
 
-![image-20220117164517220](https://gitee.com/vincentmliu/big-data-learning-materials/raw/master/trainning_materials/Elasticsearch/pics/cluster-start)
+![image-20220117164517220](./pics/cluster-start)
 
 集群启动的第一件事是从已知的活跃机器列表中选择一个作为主节点，选主之后的流程由主节点触发。ES的选主算法时基于Bully算法的改进。主要思路是对节点ID排序，取ID值最大的节点作为Master。简单来说，在bully算法中，每个节点都有一个编号，只有编号最大的存活节点才能成为Master节点。
 
@@ -306,41 +311,41 @@ ingest 节点可以看作是数据前置处理转换的节点，支持 pipeline�
 
 假设有如下6节点组成的集群，每个节点都会维护和其它节点的联系，p6节点是当前集群的master节点
 
-![img](https://gitee.com/vincentmliu/big-data-learning-materials/raw/master/trainning_materials/Elasticsearch/pics/Bully1)
+![img](./pics/Bully1)
 
 某个时间，master节点P6发生了宕机。
 
-![img](https://gitee.com/vincentmliu/big-data-learning-materials/raw/master/trainning_materials/Elasticsearch/pics/bully2)
+![img](./pics/bully2)
 
 P3节点是整个集群中最先发现master节点宕机的节点，p3节点通知了比自己编号大的p4，p5节点，p6节点
 
-![](https://gitee.com/vincentmliu/big-data-learning-materials/raw/master/trainning_materials/Elasticsearch/pics/bully3)
+![](./pics/bully3)
 
 
 
 因为p6节点已经宕机，只有p4，p5节点向p3节点发出响应，并通知p3节点他们会取代p6节点成为master节点
 
-![img](https://gitee.com/vincentmliu/big-data-learning-materials/raw/master/trainning_materials/Elasticsearch/pics/bully4)
+![img](./pics/bully4)
 
 
 
 P4节点向P5，P6节点发送通知
 
-![img](https://gitee.com/vincentmliu/big-data-learning-materials/raw/master/trainning_materials/Elasticsearch/pics/bully5)
+![img](./pics/bully5)
 
 因为p6节点已经宕机，所以只有p5节点作出了响应
 
-![img](https://gitee.com/vincentmliu/big-data-learning-materials/raw/master/trainning_materials/Elasticsearch/pics/bully6)
+![img](./pics/bully6)
 
 
 
 P5节点向P6节点发起选举通知，P6节点没有响应，于是P5节点成为了整个集群的master节点
 
-![img](https://gitee.com/vincentmliu/big-data-learning-materials/raw/master/trainning_materials/Elasticsearch/pics/bully7)
+![img](./pics/bully7)
 
 P5节点成为了整个集群的master节点
 
-![img](https://gitee.com/vincentmliu/big-data-learning-materials/raw/master/trainning_materials/Elasticsearch/pics/bully8)
+![img](./pics/bully8)
 
 
 
@@ -362,7 +367,7 @@ Elasticsearch是如何解决这个问题的呢？在Bully算法中，Master节�
 
 当一个集群因为网络问题，分裂成了两个集群，选出了两个Master。导致网络恢复时，无法正确恢复集群。
 
-![img](https://gitee.com/vincentmliu/big-data-learning-materials/raw/master/trainning_materials/Elasticsearch/pics/Split-Brain)
+![img](./pics/Split-Brain)
 
 
 
@@ -394,7 +399,7 @@ Elasticsearch是如何解决这个问题的呢？在Bully算法中，Master节�
 
 
 
-![](https://gitee.com/vincentmliu/big-data-learning-materials/raw/master/trainning_materials/Elasticsearch/pics/数据分布算法.png)
+![](./pics/数据分布算法.png)
 
 
 
@@ -426,7 +431,7 @@ $$
 
 ##### Lucene Index
 
-![image-20220119142334588](https://gitee.com/vincentmliu/big-data-learning-materials/raw/master/trainning_materials/Elasticsearch/pics/Lucene_Index)
+![image-20220119142334588](./pics/Lucene_Index)
 
 * 在Lucene中，单个倒排索引文件被成为Segment。Segment是自包含的，不可变更的。多个Segments汇总在一起，称为Lucene的Index，对应ES就是Shard
 * 有新文档写入时，会生成新的Segment，查询时会同时查询所有的Segments，并对结果汇总。Lucene中有一个文件，用来记录Segments的信息，叫做Commit Point
@@ -434,7 +439,7 @@ $$
 
 ##### 什么是Refresh
 
-![image-20220119142358950](https://gitee.com/vincentmliu/big-data-learning-materials/raw/master/trainning_materials/Elasticsearch/pics/refresh)
+![image-20220119142358950](./pics/refresh)
 
 * 在写数据的时候，先会将数据写入Index Buffer（内存）。一定频率（index.refres_interval）写入segment文件中去。将Index Buffer写入Segment（os cache）的过程叫**Refresh**。Refresh不执行fsync操作。
 * index.refres_interval默认是1秒。Refresh之后就可以被搜索到了。这就是ES被称作近实时搜索的原因
@@ -445,7 +450,7 @@ $$
 
 ##### 什么是Transaction Log
 
-![image-20220119143711981](https://gitee.com/vincentmliu/big-data-learning-materials/raw/master/trainning_materials/Elasticsearch/pics/Transaction_log)
+![image-20220119143711981](./pics/Transaction_log)
 
 
 
@@ -457,7 +462,7 @@ $$
 
 ##### 什么是Flush
 
-![image-20220119145243163](https://gitee.com/vincentmliu/big-data-learning-materials/raw/master/trainning_materials/Elasticsearch/pics/flush)
+![image-20220119145243163](./pics/flush)
 
 * ES Flush & Lucene Commit
   * 调用Refresh， Index Buffer清空并且Refresh
@@ -502,7 +507,7 @@ $$
 
 ##### Query阶段
 
-<img src="https://gitee.com/vincentmliu/big-data-learning-materials/raw/master/trainning_materials/Elasticsearch/pics/Query-phase" alt="image-20220120171803067" style="zoom:80%;" />
+<img src="./pics/Query-phase" alt="image-20220120171803067" style="zoom:80%;" />
 
 
 
@@ -513,7 +518,7 @@ $$
 
 ###### Fetch 阶段
 
-![image-20220120172027968](https://gitee.com/vincentmliu/big-data-learning-materials/raw/master/trainning_materials/Elasticsearch/pics/fetch-phase)
+![image-20220120172027968](./pics/fetch-phase)
 
 * Coordinating节点会将Query阶段从每个分片获取的doc id列表，重新进行排序。选取From + Size个文档Id
 * 以multi get请求的方式，到相应的分片获取详细的文档数据（https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-multi-get.html）
@@ -543,9 +548,9 @@ $$
 
 * ES 5之前是TF-IDF， 5之后开始采用BM25
 
-#### **查询样例**
+#### 查询样例
 
-![image-20220120153423311](https://gitee.com/vincentmliu/big-data-learning-materials/raw/master/trainning_materials/Elasticsearch/pics/relevance-score)
+![image-20220120153423311](./pics/relevance-score)
 
 #### 词频
 
@@ -568,19 +573,19 @@ $$
 * TF-IDF本质上就是将TF 求和变成了**加权求和**
   * TF（区块链） * IDF（区块链） + TF（的） * IDF（的） + TF（应用） * IDF（应用）
 
-![image-20220120155521747](https://gitee.com/vincentmliu/big-data-learning-materials/raw/master/trainning_materials/Elasticsearch/pics/IDF)
+![image-20220120155521747](./pics/IDF)
 
 
 
 #### Lucence中的 TF-IDF 评分公式
 
-![image-20220120162738404](https://gitee.com/vincentmliu/big-data-learning-materials/raw/master/trainning_materials/Elasticsearch/pics/TF-IDF_equation)
+![image-20220120162738404](./pics/TF-IDF_equation)
 
 
 
 #### BM25
 
-![image-20220120162912328](https://gitee.com/vincentmliu/big-data-learning-materials/raw/master/trainning_materials/Elasticsearch/pics/BM25)
+![image-20220120162912328](./pics/BM25)
 
 * 从ES 5开始，默认算法变为BM25
 * 和经典的TF-IDF相比，当TF无限增加时，BM25算分会趋于一个数值
@@ -602,7 +607,7 @@ Query Context：需要算分
 
 Filter Context：不需要算分
 
-![image-20220120165504793](https://gitee.com/vincentmliu/big-data-learning-materials/raw/master/trainning_materials/Elasticsearch/pics/bool_query)
+![image-20220120165504793](./pics/bool_query)
 
 
 
@@ -612,7 +617,7 @@ Filter Context：不需要算分
 
 #### 什么是聚合（Aggregation）
 
-![image-20220120172927986](https://gitee.com/vincentmliu/big-data-learning-materials/raw/master/trainning_materials/Elasticsearch/pics/what_is_agg)
+![image-20220120172927986](./pics/what_is_agg)
 
 
 
@@ -629,17 +634,17 @@ Filter Context：不需要算分
 
 #### Bucket 和 Metric
 
-![image-20220121144812554](https://gitee.com/vincentmliu/big-data-learning-materials/raw/master/trainning_materials/Elasticsearch/pics/bucket_metric_agg)
+![image-20220121144812554](./pics/bucket_metric_agg)
 
 ##### Bucket
 
-![image-20220121144930455](https://gitee.com/vincentmliu/big-data-learning-materials/raw/master/trainning_materials/Elasticsearch/pics/bucket_agg)
+![image-20220121144930455](./pics/bucket_agg)
 
 
 
 ##### Metric
 
-![image-20220121144956734](https://gitee.com/vincentmliu/big-data-learning-materials/raw/master/trainning_materials/Elasticsearch/pics/metric_agg)
+![image-20220121144956734](./pics/metric_agg)
 
 
 
@@ -667,7 +672,7 @@ Filter Context：不需要算分
 
 
 
-![image-20220125101733399](https://gitee.com/vincentmliu/big-data-learning-materials/raw/master/trainning_materials/Elasticsearch/pics/data_role)
+![image-20220125101733399](./pics/data_role)
 
 
 
@@ -712,23 +717,23 @@ Filter Context：不需要算分
 * 当磁盘容量无法满足需求时，可以增加数据节点
 * 磁盘读写压力大时，增加数据节点
 
-![image-20220125105921263](https://gitee.com/vincentmliu/big-data-learning-materials/raw/master/trainning_materials/Elasticsearch/pics/basic_deploy)
+![image-20220125105921263](./pics/basic_deploy)
 
 #### 水平扩展
 
 * 当系统中有大量负责聚合及聚合时，增加Coordinating节点，增加查询性能
 
-![image-20220125110124648](https://gitee.com/vincentmliu/big-data-learning-materials/raw/master/trainning_materials/Elasticsearch/pics/load_balance_coordinate)
+![image-20220125110124648](./pics/load_balance_coordinate)
 
 
 
 * 也可以将Coordinating节点划分为读写分离
 
-![image-20220125110315578](https://gitee.com/vincentmliu/big-data-learning-materials/raw/master/trainning_materials/Elasticsearch/pics/read_write_sqp)
+![image-20220125110315578](./pics/read_write_sqp)
 
 * kibana通常部署在coordinating节点
 
-![image-20220125110354218](https://gitee.com/vincentmliu/big-data-learning-materials/raw/master/trainning_materials/Elasticsearch/pics/kibana_load_balance)
+![image-20220125110354218](./pics/kibana_load_balance)
 
 
 
@@ -736,7 +741,7 @@ Filter Context：不需要算分
 
 集群分别在三个数据中心， GTM（Global Traffic Manager）分发读写请求
 
-![image-20220125110533596](D:\liuming\AppData\Roaming\Typora\typora-user-images\image-20220125110533596.png)
+![image-20220125110533596](./pics/image-20220125110533596.png)
 
 
 
@@ -802,7 +807,7 @@ PUT traceIndex-2022-01-25/_seettings
 
 
 
- ![image-20220125114206993](https://gitee.com/vincentmliu/big-data-learning-materials/raw/master/trainning_materials/Elasticsearch/pics/index_routing_allocation)
+ ![image-20220125114206993](./pics/index_routing_allocation)
 
 
 
@@ -814,7 +819,7 @@ Development VS. Production Mode
 
 * 从ES 5 开始，支持Development 和 Production 两种运行模式
 
-  ![image-20220125150443037](https://gitee.com/vincentmliu/big-data-learning-materials/raw/master/trainning_materials/Elasticsearch/pics/dev_mode_pro_mode)
+  ![image-20220125150443037](./pics/dev_mode_pro_mode)
 
 
 

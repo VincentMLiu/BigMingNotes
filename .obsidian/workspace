@@ -4,12 +4,12 @@
     "type": "split",
     "children": [
       {
-        "id": "89b121ef665d25e8",
+        "id": "2f55a3447f639e8d",
         "type": "leaf",
         "state": {
           "type": "markdown",
           "state": {
-            "file": "未命名.md",
+            "file": "Memory Palace/Elasticsearch/深入理解Elasticsearch.md",
             "mode": "source",
             "source": false
           }
@@ -63,11 +63,12 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "未命名.md"
+                "file": "Memory Palace/Elasticsearch/深入理解Elasticsearch.md"
               }
             }
           }
-        ]
+        ],
+        "currentTab": 3
       }
     ],
     "direction": "horizontal",
@@ -87,7 +88,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "未命名.md",
+                "file": "Memory Palace/Elasticsearch/深入理解Elasticsearch.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -128,18 +129,28 @@
               "type": "calendar",
               "state": {}
             }
+          },
+          {
+            "id": "e9f7b2a9be96dd90",
+            "type": "leaf",
+            "state": {
+              "type": "advanced-tables-toolbar",
+              "state": {}
+            }
           }
         ],
-        "currentTab": 2
+        "currentTab": 4
       }
     ],
     "direction": "horizontal",
     "width": 300,
     "collapsed": true
   },
-  "active": "89b121ef665d25e8",
+  "active": "2f55a3447f639e8d",
   "lastOpenFiles": [
+    "Memory Palace/Elasticsearch/pics/es_invert_index_example.png",
     "Memory Palace/Elasticsearch/深入理解Elasticsearch.md",
+    "未命名.md",
     "Memory Palace/Flink/pic/deployment_overview.svg",
     "Memory Palace/CEPH/CEPH中文操作文档.pdf",
     "Career/Career/Common Interview Questions and Answers.md",
