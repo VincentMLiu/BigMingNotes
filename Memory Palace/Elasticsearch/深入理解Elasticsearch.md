@@ -273,7 +273,7 @@ ingest 节点可以看作是数据前置处理转换的节点，支持 pipeline�
 
 
 
-##### 分片
+##### 分片 Shard
 
 * 主分片，用以解决数据水平扩展的问题。通过主分片，可以将数据分布到集群内的所有数据节点上。
 
@@ -295,11 +295,12 @@ ingest 节点可以看作是数据前置处理转换的节点，支持 pipeline�
 
 ### 集群选主
 
-集群启动过程指集群完全重启时的启动过程，期间要经历选举主节点、主分片、数据恢复等重要阶段。
+集群启动过程----指集群完全重启时的启动过程，期间要经历选举主节点、主分片、数据恢复等重要阶段。
 
-![image-20220117164517220](./pics/cluster-start)
+![image-20220117164517220](./pics/cluster-start.png)
 
-集群启动的第一件事是从已知的活跃机器列表中选择一个作为主节点，选主之后的流程由主节点触发。ES的选主算法时基于Bully算法的改进。主要思路是对节点ID排序，取ID值最大的节点作为Master。简单来说，在bully算法中，每个节点都有一个编号，只有编号最大的存活节点才能成为Master节点。
+集群启动的第一件事是从已知的活跃机器列表中选择一个作为主节点，选主之后的流程由主节点触发。
+ES的选主算法时基于Bully算法的改进。主要思路是对节点ID排序，取ID值最大的节点作为Master。简单来说，在bully算法中，每个节点都有一个编号，只有编号最大的存活节点才能成为Master节点。
 
 #### Bully算法简介
 
@@ -311,47 +312,51 @@ ingest 节点可以看作是数据前置处理转换的节点，支持 pipeline�
 
 假设有如下6节点组成的集群，每个节点都会维护和其它节点的联系，p6节点是当前集群的master节点
 
-![img](./pics/Bully1)
+![img](./pics/bully1.png)
 
 某个时间，master节点P6发生了宕机。
 
-![img](./pics/bully2)
+![img](./pics/bully2.png)
 
 P3节点是整个集群中最先发现master节点宕机的节点，p3节点通知了比自己编号大的p4，p5节点，p6节点
 
-![](./pics/bully3)
+![](./pics/bully3.png)
 
 
 
 因为p6节点已经宕机，只有p4，p5节点向p3节点发出响应，并通知p3节点他们会取代p6节点成为master节点
 
-![img](./pics/bully4)
+![img](./pics/bully4.png)
 
 
 
 P4节点向P5，P6节点发送通知
 
-![img](./pics/bully5)
+![img](./pics/bully5.png)
 
 因为p6节点已经宕机，所以只有p5节点作出了响应
 
-![img](./pics/bully6)
+![img](./pics/bully6.png)
 
 
 
 P5节点向P6节点发起选举通知，P6节点没有响应，于是P5节点成为了整个集群的master节点
 
-![img](./pics/bully7)
+![img](./pics/bully7.png)
 
 P5节点成为了整个集群的master节点
 
-![img](./pics/bully8)
+![img](./pics/bully8.png)
 
 
 
 #### Elasticsearch 编号介绍
 
-​	Elasticsearch编号比较的判断依据有两个，首先是ClusterState版本号的比较，版本号越大优先级越高，然后是节点id的比较，id越小优先级越高。ClusterState是Master向集群中各个节点发送的集群状态，这个状态有一个版本号码，如果集群状态发生了变化，比如集群新增了节点成员或者有节点成员退出了，那么这个版本号就会加一，比对这个版本号的目的是让拥有最新状态的节点成为Master的优先级最高。
+Elasticsearch编号比较的判断依据有两个
+* 首先是ClusterState版本号的比较，版本号越大优先级越高，
+* 然后是节点id的比较，id越小优先级越高。
+
+ClusterState是Master向集群中各个节点发送的集群状态，这个状态有一个版本号码，如果集群状态发生了变化，比如集群新增了节点成员或者有节点成员退出了，那么这个版本号就会加一，比对这个版本号的目的是让拥有最新状态的节点成为Master的优先级最高。
 
 
 
@@ -367,7 +372,7 @@ Elasticsearch是如何解决这个问题的呢？在Bully算法中，Master节�
 
 当一个集群因为网络问题，分裂成了两个集群，选出了两个Master。导致网络恢复时，无法正确恢复集群。
 
-![img](./pics/Split-Brain)
+![img](./pics/Split-Brain.png)
 
 
 
